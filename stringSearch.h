@@ -8,53 +8,43 @@ using namespace std;
 
     struct Node {
 
-        Node(char value, Node *left=NULL, Node *right=NULL);
+        Node(char value, int length, Node *left=NULL, Node *right=NULL);
         ~Node();
 
         char value;
+        int length;
         Node * left;
         Node * right;
 
-        friend ostream &operator<<(ostream &os, const Node &n);
+        void printNode();
     };
 
-    Node::Node(char v, Node *l, Node *r): value(v), left(l), right(r){}
+    Node::Node(char v, int t, Node *l, Node *r): value(v), length(t), left(l), right(r){}
     Node::~Node(){}
 
-    ostream &operator<<(ostream &cout, const Node &n) {
-        // print current node
-        cout << "(Node: value = " << n.value;
-
-        // recursively call on left child
-        if(n.left){
-            cout << ", left = " << *(n.left);
-        }
-        // recursively call on right child
-        if(n.right){
-            cout << ", right = " << *(n.right);
-        }
-        cout << ")";
-        return cout;
+    void Node::printNode(){
+        cout << "Value = " << value << ", Length = " << length << endl;
     }
 
 // Class Tree ----------------------------------------------------------------
-class Tree
+class bTree
 {
     public:
-        bTree(value);
+        bTree();
         ~bTree();
         void destroy_tree(Node *leaf);
 
-        void insert(string);
+        void insertString(string);
+        void insertChar(char, int);
         Node* get_root();
-        Node* find_LCA(int, int);
+        void printTree();
 
     private:    
         Node *root;
 };
 
 //Constructor requires an argument for the value of the root node
-bTree::bTree(int root_val){root = new Node(root_val);}
+bTree::bTree(){root = NULL;}
 
 //The destructor calls the function "destroy tree" recursively until all the leaves are freed
 bTree::~bTree(){destroy_tree(root);}
@@ -66,29 +56,42 @@ void bTree::destroy_tree(Node *leaf){
   }
 }
 
-void bTree::insert( s){
-
+void bTree::insertString( string inputString ){
+    for(int i = 0 ; i < inputString.length() ; i++){
+        if(i + 1 != inputString.length()){
+            insertChar(inputString[i], 0);
+        }
+        else{
+            insertChar(inputString[i], inputString.length());
+        }
+    }
 }
 
-Node* bTree::get_root(){return(root);}
-
-Node* bTree::find_LCA(int node1, int node2){
+void bTree::insertChar( char inputChar, int length = 0 ){
+    cout << "Input Char = " << inputChar << endl;
     Node* tmp = root;
-    Node* parent = NULL;
-    while(parent == NULL){
-        //If they are both less than or equal to the node, check out the left branch
-        if (  ( node1 < (tmp->value) ) && ( node2 < (tmp->value) )  ){
-            tmp = tmp->left;
-        }
-        else if( ( node1 > (tmp->value) ) && ( node2 > (tmp->value) )  ){
+    while(tmp != NULL){
+        cout << "Tmp != NULL" << endl;
+        if(inputChar >= tmp->value){
+            cout << "tmp = tmp ->right" << endl;
             tmp = tmp->right;
         }
         else{
-            parent = tmp;
+            tmp = tmp->left;
         }
-    }
 
-    return parent;
+    }
+    cout << "Tmp == NULL" << endl;
+    tmp = new Node(inputChar, length);
+
 }
+
+void bTree::printTree( ){
+    Node* tmp = root;
+    tmp->printNode();
+}
+  
+
+Node* bTree::get_root(){return(root);}
 
 // vim: set sts=4 sw=4 ts=8 expandtab ft=cpp:
