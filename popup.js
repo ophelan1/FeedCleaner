@@ -1,7 +1,7 @@
 function hello() {
 	console.log("RUNNING HELLO");
   chrome.tabs.executeScript({
-    file: '/content.js'
+    file: "/content.js"
   }); 
 }
 
