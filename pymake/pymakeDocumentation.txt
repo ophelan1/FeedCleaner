@@ -1,0 +1,31 @@
+Rules Regarding pyMake:
+
+Sections: Makefiles can have two possible sections.
+		1. Substitution Rules - This first section is optional, it holds the string substitution rules of 
+			the Makefile, should you choose to use variable names in your build instructions.
+		2. Build Rules - These are the actual build rules for the makefile. 
+
+	
+	Substitution Rules 
+		1. Substitution rules must take the form "<variable_string> = <substitution_string(s)>".
+			- If using Substitution rules, the Makefile must begin with them. There can be no blank lines before substitution rules
+			- Each rule on a seperate line
+			- variable_string must be completely alphanumeric. White space at the begging and end will be removed. 
+				The substitution_string can have punctuation, white-space, etc. 
+			- Both strings can have upper and lowercase letters, and can be any length, matching is case sensitive
+			- Any white space included at the begging and end of either string will be removed
+		2. Matching 
+			- Matching in the rules section is done via variable recognition. Each variable_string must be proceeded with a $, and enclosed in parentheses
+				o i.e if the rule is "CXX = g++", then the build rule should use "$(CXX)"" in place of "g++"
+			- There are 2 variables which are already defined, and do not need to be enclosed in patentheses:
+				1. $@ 
+					- The target of the rule.
+					- i.e. if the rule is "solution: soltuion.cpp fooLib.o", then $@ would be substituted for "solution"
+				2. $^
+					- The names of all the prerequisites, with spaces between them. 
+					- i.e. if the rule is "solution: soltuion.cpp fooLib.o", then $^ would be substituted for "soltuion.cpp fooLib.o"
+	Build Rules 
+
+
+	General 
+		1. Lines beggining with the character "#" will be ignored
